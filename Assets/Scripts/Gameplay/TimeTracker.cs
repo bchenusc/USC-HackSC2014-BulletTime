@@ -32,9 +32,11 @@ public class TimeTracker : MonoBehaviour {
 		rBody.velocity = Vector3.zero;
 		rBody.angularVelocity = Vector3.zero;
 		rBody.useGravity = false;
+		rBody.isKinematic = true;
 	}
 
 	public void ResumeObject() {
+		rBody.isKinematic = false;
 		rBody.velocity = oldVelocity;
 		rBody.angularVelocity = oldAngularVelocity;
 		rBody.useGravity = oldUseGravity;

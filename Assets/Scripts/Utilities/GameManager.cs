@@ -6,7 +6,7 @@ public class GameManager : Singleton<GameManager> {
 	protected GameManager() {}
 
 	#region const defines
-	public float minVelocityBuffer = 0.0001f;
+	public float minVelocityBuffer = 0.001f;
 	#endregion
 
 	#region playerStats

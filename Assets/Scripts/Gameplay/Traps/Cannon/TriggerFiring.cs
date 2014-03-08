@@ -15,14 +15,12 @@ public class TriggerFiring : MonoBehaviour {
 
 	void OnTriggerEnter(Collider platform){
 		if (platform.CompareTag("Player")){
-			Debug.Log("Enter!");
 			this.transform.parent.GetChild (0).GetChild (0).GetComponent<Firing> ().StartFiring ();
 		}
 	}
 
 	void OnTriggerExit(Collider platform){
 		if (platform.CompareTag("Player")){
-			Debug.Log("Exit!");
 			this.transform.parent.GetChild (0).GetChild (0).GetComponent<Firing> ().StopFiring ();
 		}
 	}

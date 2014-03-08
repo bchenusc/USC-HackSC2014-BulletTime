@@ -24,9 +24,6 @@ public class TimeTracker : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (m_objStopped) {
-			Mathf.Lerp
-		}
 	
 	}
 

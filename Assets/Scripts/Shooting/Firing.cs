@@ -6,19 +6,17 @@ public class Firing : MonoBehaviour {
 	public Rigidbody projectile;
 
 	void Start () {
-
+		TimerManager.Instance.Add (gameObject.GetInstanceID() + "Gun", Fire, 1, true);
 	}
 
 	void Update () {
-		Fire ();
+
 	}
 
 	void Fire (){
 		Rigidbody clone; 
-		if (Input.GetKeyDown(KeyCode.R)) {
 				clone = Instantiate (projectile, transform.position, transform.rotation) as Rigidbody;
 				clone.velocity = transform.TransformDirection (Vector3.forward * projectileSpeed);
 				Destroy (clone.gameObject, 5);
-		}
 	}
 }

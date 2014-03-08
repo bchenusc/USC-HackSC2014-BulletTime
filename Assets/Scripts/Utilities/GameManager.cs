@@ -6,7 +6,7 @@ public class GameManager : Singleton<GameManager> {
 	protected GameManager() {}
 
 	#region const defines
-	public float minVelocityBuffer = 0.001f;
+	public float minVelocityBuffer = 0.1f;
 	#endregion
 
 	#region playerStats
@@ -62,6 +62,10 @@ public class GameManager : Singleton<GameManager> {
 		foreach (TimeTracker tt in timeObjects) {
 			tt.ResumeObject();
 		}
+	}
+
+	public bool isTimeStopped() {
+		return timeStopped;
 	}
 
 }

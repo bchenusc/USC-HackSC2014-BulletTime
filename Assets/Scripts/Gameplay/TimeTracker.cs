@@ -4,22 +4,12 @@ using System.Collections;
 [RequireComponent (typeof(Rigidbody))]
 
 public class TimeTracker : MonoBehaviour {
-	
-	//State = 1 means moving
-	//State = 0 means not moving
-	/*int m_state = 1;
-	int m_lerpFactor = 0;
-	bool m_objStopped = false;*/
+
 	Vector3 oldVelocity = Vector3.zero;
 	Vector3 oldAngularVelocity = Vector3.zero;
 	bool oldUseGravity = false;
 	Rigidbody rBody = null;
 
-
-	/*public int State{
-		set { m_state = value;}
-		get { return m_state;}
-	}*/
 	void Awake () {
 
 	}

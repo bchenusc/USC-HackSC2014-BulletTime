@@ -41,4 +41,8 @@ public class TimeTracker : MonoBehaviour {
 		rBody.angularVelocity = oldAngularVelocity;
 		rBody.useGravity = oldUseGravity;
 	}
+
+	void OnDestroy() {
+		GameManager.Instance.removeTimeObject(this);
+	}
 }

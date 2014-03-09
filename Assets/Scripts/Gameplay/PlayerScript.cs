@@ -41,6 +41,8 @@ public class PlayerScript : MonoBehaviour {
 			GetComponent<OVRGamepadController>().enabled = false;
 			GetComponent<OVRPlayerController>().enabled = false;
 			GameManager.Instance.setPlayerDead();
+			GameManager.Instance.disableInput();
+			GameManager.Instance.stopTime();
 		}
 	}
 
@@ -57,6 +59,7 @@ public class PlayerScript : MonoBehaviour {
 		GetComponent<OVRPlayerController>().enabled = true;
 		GetComponent<OVRMainMenu>().resetDeath();
 		GameManager.Instance.setPlayerAlive();
+		GameManager.Instance.enableInput();
 	}
 
 	public void setCheckpoint(Checkpoint checkpoint) {

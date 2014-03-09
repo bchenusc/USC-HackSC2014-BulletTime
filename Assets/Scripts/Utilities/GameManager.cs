@@ -22,6 +22,7 @@ public class GameManager : Singleton<GameManager> {
 	bool rightTriggerHeld = false;
 	bool startButtonHeld = false;
 	bool selectButtonHeld = false;
+	bool inputDisabled = false;
 	#endregion
 
 	void Awake() {
@@ -33,14 +34,18 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	void Update() {
+		Debug.Log("Input Enabled: " + !inputDisabled + ", Time Stopped: " + timeStopped);
+
+		if (inputDisabled) {
+			return;
+		}
+		
 		bool playerMoving = Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0;
 
 		if (timeStopped && !bulletTimeActive && playerMoving) {
 			resumeTime();
-			timeStopped = false;
 		} else if (!timeStopped && (!playerMoving || bulletTimeActive)) {
 			stopTime();
-			timeStopped = true;
 		}
 
 		bool rightTriggerDown = OVRGamepadController.GPC_GetAxis((int)OVRGamepadController.Axis.RightTrigger) > 0 && !rightTriggerHeld;
@@ -79,12 +84,11 @@ public class GameManager : Singleton<GameManager> {
 		if (Input.GetKeyDown(KeyCode.T) || startButtonDown) {
 			reset();
 		}
-
-		//Debug.Log(timeStopped);
 	}
 
 	void OnLevelWasLoaded(int level) {
 		player = GameObject.FindGameObjectWithTag("Player");
+		timeStopped = false;
 	}
 
 	void reset() {
@@ -100,7 +104,6 @@ public class GameManager : Singleton<GameManager> {
 				timeObjects.RemoveAt(i);
 			} else {
 				timeObjects[i].ResetObject();
-				timeObjects[i].StopObject();
 			}
 		}
 	}
@@ -120,13 +123,15 @@ public class GameManager : Singleton<GameManager> {
 		timeObjects.Clear();
 	}
 
-	void stopTime() {
+	public void stopTime() {
+		timeStopped = true;
 		foreach (TimeTracker tt in timeObjects) {
 			tt.StopObject();
 		}
 	}
 
-	void resumeTime() {
+	public void resumeTime() {
+		timeStopped = false;
 		foreach (TimeTracker tt in timeObjects) {
 			tt.ResumeObject();
 		}
@@ -153,10 +158,23 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	public void setPlayerAlive() {
+		timeStopped = false;
 		isPlayerDead = false;
 	}
 
 	public bool getPlayerDead() {
 		return isPlayerDead;
+	}
+
+	public bool isInputDisabled() {
+		return inputDisabled;
+	}
+
+	public void disableInput() {
+		inputDisabled = true;
+	}
+
+	public void enableInput() {
+		inputDisabled = false;
 	}
 }

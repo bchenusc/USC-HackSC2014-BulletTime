@@ -19,12 +19,10 @@ public class AudioManager : Singleton<AudioManager> {
 
 		// Load music
 		//**Note** The directory in Load<T> must be a sub directory of a directory called Resources in the unity Assets folder
-		//music["MainTheme"] = Resources.Load<AudioClip>("Audio/Music/MainTheme");
 		music["canon"] = Resources.Load<AudioClip>("Audio/Music/canon");
 		music["sea"] = Resources.Load<AudioClip>("Audio/Music/sea");
 
 		// Load sound effects
-		//sounds["sword"] = Resources.Load<AudioClip>("Audio/Sounds/sword");
 		sounds["fireBall"] = Resources.Load<AudioClip>("Audio/Effects/fireBall");
 		sounds["shootFireBall"] = Resources.Load<AudioClip>("Audio/Effects/shootFireBall");
 		sounds["checkpoint"] = Resources.Load<AudioClip>("Audio/Effects/checkpoint");

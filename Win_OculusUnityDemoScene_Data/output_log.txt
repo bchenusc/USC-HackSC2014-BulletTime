@@ -13,7 +13,7 @@ Platform assembly: C:\Users\Brian\Documents\School\Spring2014\HackSC2014\Win_Ocu
 Loading C:\Users\Brian\Documents\School\Spring2014\HackSC2014\Win_OculusUnityDemoScene_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\Brian\Documents\School\Spring2014\HackSC2014\Win_OculusUnityDemoScene_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading C:\Users\Brian\Documents\School\Spring2014\HackSC2014\Win_OculusUnityDemoScene_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.054 seconds
+- Completed reload, in  0.056 seconds
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1280x800 60Hz; virtual: 1280x800 at 0,0

@@ -3,10 +3,10 @@ BulletTime
 
 **[Brian Chen][1]**: Programmer, Graphics / UX, Black Box Tester <br/>
 **[Bryan Chong][2]**: Programmer (Traps), Documentation, Black Box Tester <br/>
-**[Matthew Pohlmann][3]**: Programmer (Mechanics, UI), White Box Tester </br/>
+**[Matthew Pohlmann][3]**: Programmer (Mechanics, UI), White Box Tester <br/>
 **[David Zhang][4]**: Programmer (Traps, UI), White Box Tester <br/>
 
-**BulletTime** built during the 2014 HackSC Hackathon.
+**BulletTime** was built during the 2014 HackSC Hackathon.
 
 Overview
 -------

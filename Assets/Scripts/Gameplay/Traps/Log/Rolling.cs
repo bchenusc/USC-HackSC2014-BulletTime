@@ -14,6 +14,9 @@ public class Rolling : MonoBehaviour {
 	}
 
 	public void Roll(){
-		this.gameObject.GetComponent<Rigidbody>().AddForce(0,0,3000);
+		Vector3 direction = this.transform.parent.GetChild (1).position - transform.position;
+		direction = new Vector3 (direction.x, 0, direction.z);
+		direction = Vector3.Normalize (direction);
+		this.gameObject.GetComponent<Rigidbody>().AddForce(direction * 8000);
 	}
 }

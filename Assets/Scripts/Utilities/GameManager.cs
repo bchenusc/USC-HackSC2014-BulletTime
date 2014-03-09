@@ -7,7 +7,7 @@ public class GameManager : Singleton<GameManager> {
 
 	#region defines
 	public float minVelocityBuffer = 0.1f;
-	public float bulletTimeRemaining = 10.0f;
+	public float bulletTimeRemaining = 1000.0f;
 	#endregion
 
 	#region playerStats

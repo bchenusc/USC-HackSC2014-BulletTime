@@ -11,9 +11,7 @@ public class TimeTracker : MonoBehaviour {
 	bool oldIsKinematic = false;
 	Rigidbody rBody = null;
 
-	void Awake () {
-
-	}
+	bool applicationQuitting = false;
 
 	// Use this for initialization
 	void Start () {
@@ -24,11 +22,6 @@ public class TimeTracker : MonoBehaviour {
 		oldAngularVelocity = rBody.angularVelocity;
 		oldUseGravity = rBody.useGravity;
 		oldIsKinematic = rBody.isKinematic;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 	public void StopObject() {
@@ -55,8 +48,13 @@ public class TimeTracker : MonoBehaviour {
 		}
 	}
 
+	void OnApplicationQuit() {
+		applicationQuitting = true;
+	}
+
 	void OnDestroy() {
-		if (GameManager.Instance != null)
+		if (!applicationQuitting) {
 			GameManager.Instance.removeTimeObject(this);
+		}
 	}
 }

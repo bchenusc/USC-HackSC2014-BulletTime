@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(AudioSource))]
+
 public class Checkpoint : MonoBehaviour {
 
 	public bool resetsBulletTime = false;
@@ -25,6 +27,10 @@ public class Checkpoint : MonoBehaviour {
 				} else {
 					bulletTimeRemaining = GameManager.Instance.getBulletTimeRemaining();
 				}
+
+				AudioClip ac = AudioManager.Instance.getAudioClip("checkpoint");
+				transform.audio.clip = ac;
+				transform.audio.PlayOneShot(ac);
 			}
 		}
 	}

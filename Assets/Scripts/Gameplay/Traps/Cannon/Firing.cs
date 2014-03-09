@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(AudioSource))]
+
 public class Firing : MonoBehaviour {
 	public int projectileSpeed = 30;
 	public Rigidbody projectile;
@@ -19,6 +21,11 @@ public class Firing : MonoBehaviour {
 		Rigidbody clone; 
 				clone = Instantiate (projectile, transform.position, Quaternion.identity) as Rigidbody;
 				clone.velocity = transform.forward * projectileSpeed;
+
+		AudioClip ac = AudioManager.Instance.getAudioClip("shootFireBall");
+		transform.audio.volume = 0.7f;
+		transform.audio.clip = ac;
+		transform.audio.PlayOneShot(ac);
 				
 	}
 

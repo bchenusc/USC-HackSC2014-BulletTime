@@ -20,12 +20,18 @@ public class AudioManager : Singleton<AudioManager> {
 		// Load music
 		//**Note** The directory in Load<T> must be a sub directory of a directory called Resources in the unity Assets folder
 		//music["MainTheme"] = Resources.Load<AudioClip>("Audio/Music/MainTheme");
+		music["canon"] = Resources.Load<AudioClip>("Audio/Music/canon");
+		music["sea"] = Resources.Load<AudioClip>("Audio/Music/sea");
 
 		// Load sound effects
 		//sounds["sword"] = Resources.Load<AudioClip>("Audio/Sounds/sword");
-		sounds["button_end"] = Resources.Load<AudioClip>("Audio/Sounds/button_end");
-		sounds["button_start"] = Resources.Load<AudioClip>("Audio/Sounds/button_start");
-		sounds["levelEnd"] = Resources.Load<AudioClip>("Audio/Sounds/levelEnd");
+		sounds["fireBall"] = Resources.Load<AudioClip>("Audio/Effects/fireBall");
+		sounds["shootFireBall"] = Resources.Load<AudioClip>("Audio/Effects/shootFireBall");
+		sounds["checkpoint"] = Resources.Load<AudioClip>("Audio/Effects/checkpoint");
+
+		// Automatically start background music
+		PlayMusic("canon", 1.0f);
+		PlayLoopingMusic("sea", 0.8f);
 	}
 	
 	public void Mute () {
@@ -36,7 +42,14 @@ public class AudioManager : Singleton<AudioManager> {
 		 AudioListener.pause = true;
 		 AudioListener.volume = 0;
 		*/
-		AudioListener al = Camera.main.gameObject.GetComponent<AudioListener>();
+		AudioListener al = null;
+		foreach (GameObject go in GameObject.FindGameObjectsWithTag("MainCamera")) {
+			al = go.GetComponent<AudioListener>(); 
+			if (al != null) {
+				break;
+			}
+		}
+
 		if (al != null) {
 			//al.audio.Pause();
 			//al.audio.volume = 0;
@@ -59,8 +72,32 @@ public class AudioManager : Singleton<AudioManager> {
 		musicPlayer.Play();
 	}
 
+	public void PlayLoopingMusic(string toPlay, float volume = 0.08f) {
+		try {
+			PlayLoopingMusicHelper(music[toPlay], volume);
+		} catch(KeyNotFoundException) {
+			Debug.LogWarning("AudioManager::PlayLoopingMusic(" + toPlay + "): [KeyNotFoundException] Clip of this name not found.");
+			return;
+		} catch(NullReferenceException) {
+			Debug.LogWarning("AudioManager::PlayLoopingMusic(" + toPlay + "): [NullReferenceException] Clip of this name not loaded from Resources.");
+			return;
+		}
+	}
+
 	public void StopMusic() {
 		musicPlayer.Stop();
+	}
+
+	public AudioClip getAudioClip(string clip) {
+		try {
+			return sounds[clip];
+		} catch(KeyNotFoundException) {
+			Debug.LogWarning("AudioManager::getAudioClip(" + clip + "): [KeyNotFoundException] Clip of this name not found.");
+			return null;
+		} catch(NullReferenceException) {
+			Debug.LogWarning("AudioManager::getAudioClip(" + clip + "): [NullReferenceException] Clip of this name not loaded from Resources.");
+			return null;
+		}
 	}
 
 	public void PlaySoundEffect(string toPlay, GameObject location, float volume = 1.0f) {
@@ -84,6 +121,16 @@ public class AudioManager : Singleton<AudioManager> {
 		source.volume = volume;
 		source.Play();
 		Destroy(temp, clip.length);
+		return source;
+	}
+
+	private AudioSource PlayLoopingMusicHelper(AudioClip clip, float volume) {
+		GameObject temp = new GameObject("LoopingMusic");
+		AudioSource source = temp.AddComponent<AudioSource>();
+		source.clip = clip;
+		source.volume = volume;
+		source.loop = true;
+		source.Play();
 		return source;
 	}
 	#endregion

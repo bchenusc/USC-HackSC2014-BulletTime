@@ -18,7 +18,7 @@ public class Firing : MonoBehaviour {
 		Rigidbody clone; 
 				clone = Instantiate (projectile, transform.position, Quaternion.identity) as Rigidbody;
 				clone.velocity = transform.forward * projectileSpeed;
-				Destroy (clone.gameObject, 5);
+				
 	}
 
 	public void StartFiring(){

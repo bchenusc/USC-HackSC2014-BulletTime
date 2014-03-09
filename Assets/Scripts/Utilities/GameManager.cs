@@ -63,6 +63,10 @@ public class GameManager : Singleton<GameManager> {
 		timeObjects.AddLast(tt);
 	}
 
+	public LinkedList<TimeTracker> getTimeObjects() {
+		return timeObjects;
+	}
+
 	public void removeTimeObject(TimeTracker tt) {
 		timeObjects.Remove(tt);
 	}

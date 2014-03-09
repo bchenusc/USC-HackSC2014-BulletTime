@@ -51,8 +51,7 @@ public class SmashingWall : MonoBehaviour {
 			}
 		// Opening the walls, make them separate at a constant velocity
 		} else if(!GameManager.Instance.isTimeStopped() && m_State == SmashingWallState.Opening) {
-			LeftWall.rigidbody.velocity = new Vector3(-separateVelocity, 0, 0) * Time.deltaTime;
-			RightWall.rigidbody.velocity = new Vector3(separateVelocity, 0, 0) * Time.deltaTime;
+
 		}
 		// If the walls reach their original positions while opening, set their initial position,
 		// change the state, and set a timer to smash the walls again
@@ -75,6 +74,8 @@ public class SmashingWall : MonoBehaviour {
 
 	void SeparateWalls() {
 		m_State = SmashingWallState.Opening;
+		LeftWall.rigidbody.velocity = new Vector3(-separateVelocity, 0, 0) * Time.deltaTime;
+		RightWall.rigidbody.velocity = new Vector3(separateVelocity, 0, 0) * Time.deltaTime;
 	}
 
 	void SmashWalls() {

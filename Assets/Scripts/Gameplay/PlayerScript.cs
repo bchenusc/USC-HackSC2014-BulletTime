@@ -42,8 +42,7 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 	void RespawnCharacter() {
-		Debug.Log ("Respawning");
-		transform.position = currentCheckpoint + new Vector3(0, 2, 0);
+		transform.position = currentCheckpoint + new Vector3(0, 1.03f, 0);
 		m_State = PlayerState.Alive;
 		GetComponent<OVRGamepadController>().enabled = true;
 		GetComponent<OVRPlayerController>().enabled = true;

@@ -31,13 +31,17 @@ public class PlayerScript : MonoBehaviour {
 		}
 		// If the body is a TimeTracker object
 		if(body.gameObject.GetComponent<TimeTracker>()) {
-			if(m_State == PlayerState.Alive) {
-				TimerManager.Instance.Add ("RespawnCharacter", RespawnCharacter, 3f, false);
-				m_State = PlayerState.Dying;
-				GetComponent<OVRGamepadController>().enabled = false;
-				GetComponent<OVRPlayerController>().enabled = false;
-				GameManager.Instance.setPlayerDead();
-			}
+			KillCharacter();
+		}
+	}
+
+	public void KillCharacter() {
+		if(m_State == PlayerState.Alive) {
+			TimerManager.Instance.Add ("RespawnCharacter", RespawnCharacter, 3f, false);
+			m_State = PlayerState.Dying;
+			GetComponent<OVRGamepadController>().enabled = false;
+			GetComponent<OVRPlayerController>().enabled = false;
+			GameManager.Instance.setPlayerDead();
 		}
 	}
 

@@ -59,7 +59,7 @@ public class TimerManager : Singleton<TimerManager> {
 		}
 		sl_pending.Clear();
 
-		if (GameManager.Instance.isTimeStopped()) {
+		if (GameManager.Instance.isTimeStopped() && !GameManager.Instance.getPlayerDead()) {
 			return;
 		}
 		

@@ -147,7 +147,9 @@ public class OVRMainMenu : MonoBehaviour
 	private delegate void updateFunctions();
 	private updateFunctions UpdateFunctions;
 	
-	
+	// Other variables
+	Texture deathTexture;
+	float deathTimer = 0f;
 	
 	// * * * * * * * * * * * * *
 
@@ -175,7 +177,9 @@ public class OVRMainMenu : MonoBehaviour
 			Debug.LogWarning("OVRMainMenu: More then 1 OVRPlayerController attached.");
 		else
 			PlayerController = PlayerControllers[0];
-	
+
+
+		deathTexture = new Texture2D(Screen.width, Screen.width);
 	}
 	
 	// Start
@@ -685,7 +689,11 @@ public class OVRMainMenu : MonoBehaviour
 		// So do not show anything else
 		if(GUIShowRiftDetected() != true)
 		{	
-			GUIShowBulletTime();
+			if(GameManager.Instance.getPlayerDead()) {
+				GUIShowPlayerDeath();
+			} else {
+				GUIShowBulletTime();
+			}
 			GUIShowLevels();
 			GUIShowVRVariables();
 		}
@@ -708,6 +716,19 @@ public class OVRMainMenu : MonoBehaviour
 		} else {
 			GuiHelper.StereoBox(490, 280, WidthX, WidthY, ref time, Color.green);
 		}
+	}
+
+	void GUIShowPlayerDeath() {
+		deathTimer += Time.deltaTime;
+		if(deathTimer > 2) {
+			deathTimer = 2;
+		}
+		Color redColor = new Color(0, 0, 0, Mathf.Lerp(0, 1, deathTimer / 2));
+		GuiHelper.StereoDrawTexture(0, 0, Screen.width * 2, Screen.height * 2, ref deathTexture, redColor);
+	}
+
+	public void resetDeath() {
+		deathTimer = 0;
 	}
 	
 	// GUIShowLevels

@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager> {
 	LinkedList<TimeTracker> timeObjects = null;
 	bool timeStopped = false;
 	bool bulletTimeActive = false;
+	bool isPlayerDead = false;
 	bool rightTriggerHeld = false;
 	#endregion
 
@@ -108,4 +109,15 @@ public class GameManager : Singleton<GameManager> {
 		return bulletTimeActive;
 	}
 
+	public void setPlayerDead() {
+		isPlayerDead = true;
+	}
+
+	public void setPlayerAlive() {
+		isPlayerDead = false;
+	}
+
+	public bool getPlayerDead() {
+		return isPlayerDead;
+	}
 }

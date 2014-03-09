@@ -4,7 +4,7 @@ using System.Collections;
 public class Firing : MonoBehaviour {
 	public int projectileSpeed = 30;
 	public Rigidbody projectile;
-	public int rate = 4;
+	public float rate = 4;
 
 	void Start () {
 		StartFiring ();

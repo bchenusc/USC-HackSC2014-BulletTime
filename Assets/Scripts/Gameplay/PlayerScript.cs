@@ -11,16 +11,11 @@ public class PlayerScript : MonoBehaviour {
 
 	PlayerState m_State = PlayerState.Alive;
 
-	public GameObject[] Checkpoints;
 	Vector3 currentCheckpoint;
 
 	// Use this for initialization
 	void Start () {
-		if(Checkpoints.Length > 0) {
-			currentCheckpoint = Checkpoints[0].transform.position;
-		} else {
-			currentCheckpoint = transform.position;
-		}
+		currentCheckpoint = transform.position;
 	}
 
 	void OnControllerColliderHit(ControllerColliderHit hit) {
@@ -29,8 +24,10 @@ public class PlayerScript : MonoBehaviour {
 		if(body == null) {
 			return;
 		}
+		Debug.Log (body);
 		// If the body is a TimeTracker object
-		if(body.gameObject.GetComponent<TimeTracker>()) {
+		if(body.gameObject.GetComponent<TimeTracker>() || body.gameObject.CompareTag("Ocean")) {
+			Debug.Log (body.gameObject);
 			KillCharacter();
 		}
 	}

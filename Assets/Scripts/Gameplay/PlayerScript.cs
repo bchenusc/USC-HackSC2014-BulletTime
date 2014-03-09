@@ -21,7 +21,7 @@ public class PlayerScript : MonoBehaviour {
 		if(m_State == PlayerState.Dying) {
 			if(GetComponent<OVRMainMenu>()) {
 				OVRMainMenu m = GetComponent<OVRMainMenu>();
-				m.GUIShowVRVariables();
+//				m.GUIShowVRVariables();
 			}
 			//Quaternion b = a.
 			//transform.rotation = Quaternion.Slerp(a

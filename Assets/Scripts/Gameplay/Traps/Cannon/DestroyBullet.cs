@@ -8,7 +8,7 @@ public class DestroyBullet : MonoBehaviour {
 		TimerManager.Instance.Add (gameObject.GetInstanceID () + "Destroy", DestroyProjectile, 5, false);
 	}
 
-	void DestroyProjectile() {
+	public void DestroyProjectile() {
 		TimerManager.Instance.Remove (gameObject.GetInstanceID () + "Destroy");
 		Destroy (gameObject);
 	}

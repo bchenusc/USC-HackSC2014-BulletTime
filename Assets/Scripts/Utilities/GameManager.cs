@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager> {
 	#endregion
 
 	#region otherVariables
-	LinkedList<TimeTracker> timeObjects = null;
+	List<TimeTracker> timeObjects = null;
 	bool timeStopped = false;
 	bool bulletTimeActive = false;
 	bool isPlayerDead = false;
@@ -26,13 +26,12 @@ public class GameManager : Singleton<GameManager> {
 	#endregion
 
 	void Awake() {
-		timeObjects = new LinkedList<TimeTracker>();
+		timeObjects = new List<TimeTracker>();
 	}
 
 	void Start() {
 		player = GameObject.FindGameObjectWithTag("Player");
 		playerController = player.GetComponent<CharacterController>();
-
 	}
 
 	void Update() {
@@ -72,8 +71,7 @@ public class GameManager : Singleton<GameManager> {
 		bool selectButtonDown = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Back) && !selectButtonHeld;
 		selectButtonHeld = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Back);
 		if (Input.GetKeyDown(KeyCode.R) || selectButtonDown) {
-			resetTimeObjectsToInitialState();
-			// respawn character here
+			player.GetComponent<PlayerScript>().KillCharacter();
 			return;
 		}
 
@@ -85,39 +83,34 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
+	void OnLevelWasLoaded(int level) {
+		player = GameObject.FindGameObjectWithTag("Player");
+		playerController = player.GetComponent<CharacterController>();
+	}
+
 	void reset() {
 		TimerManager.Instance.RemoveAll();
 		clearAllTimeObjects();
 		Application.LoadLevel(Application.loadedLevel);
 	}
 
-	void resetTimeObjectsToInitialState() {
-		LinkedList<TimeTracker>.Enumerator current = timeObjects.GetEnumerator();
-		LinkedList<TimeTracker>.Enumerator previous = timeObjects.GetEnumerator();
-
-		while (current.MoveNext()) {
-			if (current.Current.gameObject.GetComponent<DestroyBullet>()) {
-				Destroy(current.Current.gameObject);
-				timeObjects.Remove(current.Current);
-				current = previous;
+	public void resetTimeObjectsToInitialState() {
+		for (int i = timeObjects.Count - 1; i >= 0; i--) {
+			if (timeObjects[i].gameObject.GetComponent<DestroyBullet>() != null) {
+				timeObjects[i].gameObject.GetComponent<DestroyBullet>().DestroyProjectile();
+				timeObjects.RemoveAt(i);
 			} else {
-				current.Current.ResetObject();
+				timeObjects[i].ResetObject();
+				timeObjects[i].StopObject();
 			}
-
-			previous = current;
 		}
-
 	}
 
 	public void addTimeObject(TimeTracker tt) {
-		timeObjects.AddLast(tt);
+		timeObjects.Add(tt);
 		if (timeStopped) {
 			tt.StopObject();
 		}
-	}
-
-	public LinkedList<TimeTracker> getTimeObjects() {
-		return timeObjects;
 	}
 
 	public void removeTimeObject(TimeTracker tt) {

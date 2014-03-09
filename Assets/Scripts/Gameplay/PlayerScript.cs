@@ -35,6 +35,7 @@ public class PlayerScript : MonoBehaviour {
 	public void KillCharacter() {
 		if(m_State == PlayerState.Alive) {
 			TimerManager.Instance.Add ("RespawnCharacter", RespawnCharacter, 3f, false);
+			TimerManager.Instance.Add ("ResetTransforms", GameManager.Instance.resetTimeObjectsToInitialState, 2.5f, false);
 			m_State = PlayerState.Dying;
 			GetComponent<OVRGamepadController>().enabled = false;
 			GetComponent<OVRPlayerController>().enabled = false;

@@ -14,7 +14,9 @@ public class DestroyBullet : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision c){
-		DestroyProjectile();
+		if (c.gameObject.GetComponent<DestroyBullet>() == null){
+			DestroyProjectile();
+		}
 	}
 
 }

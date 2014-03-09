@@ -74,8 +74,8 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		// Completely restart level
-		bool startButtonDown = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Back) && !startButtonHeld;
-		startButtonHeld = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Back);
+		bool startButtonDown = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Start) && !startButtonHeld;
+		startButtonHeld = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Start);
 		if (Input.GetKeyDown(KeyCode.T) || startButtonDown) {
 			reset();
 		}

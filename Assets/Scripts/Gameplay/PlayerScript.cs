@@ -11,11 +11,12 @@ public class PlayerScript : MonoBehaviour {
 
 	PlayerState m_State = PlayerState.Alive;
 
-	Vector3 currentCheckpoint;
+	Checkpoint currentCheckpoint = null;
+	Vector3 levelStartPos = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
-		currentCheckpoint = transform.position;
+		levelStartPos = transform.position;
 	}
 
 	void OnControllerColliderHit(ControllerColliderHit hit) {
@@ -34,7 +35,8 @@ public class PlayerScript : MonoBehaviour {
 
 	public void KillCharacter() {
 		if(m_State == PlayerState.Alive) {
-			TimerManager.Instance.Add ("RespawnCharacter", RespawnCharacter, 3f, false);
+			TimerManager.Instance.Add ("RespawnCharacter", RespawnCharacter, 3f, false, -1, null, true);
+			TimerManager.Instance.Add ("ResetTransforms", GameManager.Instance.resetTimeObjectsToInitialState, 2.5f, false, -1, null, true);
 			m_State = PlayerState.Dying;
 			GetComponent<OVRGamepadController>().enabled = false;
 			GetComponent<OVRPlayerController>().enabled = false;
@@ -43,7 +45,13 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 	void RespawnCharacter() {
-		transform.position = currentCheckpoint + new Vector3(0, 1.03f, 0);
+		if (currentCheckpoint) {
+			transform.position = currentCheckpoint.transform.position + new Vector3(0, 1.03f, 0);
+			GameManager.Instance.setBulletTimeRemaining(currentCheckpoint.getBulletTimeRemaining());
+		} else {
+			transform.position = levelStartPos;
+			GameManager.Instance.setBulletTimeRemaining(10);
+		}
 		m_State = PlayerState.Alive;
 		GetComponent<OVRGamepadController>().enabled = true;
 		GetComponent<OVRPlayerController>().enabled = true;
@@ -51,7 +59,7 @@ public class PlayerScript : MonoBehaviour {
 		GameManager.Instance.setPlayerAlive();
 	}
 
-	public void setCheckpoint(GameObject checkpoint) {
-		currentCheckpoint = checkpoint.transform.position;
+	public void setCheckpoint(Checkpoint checkpoint) {
+		currentCheckpoint = checkpoint;
 	}
 }

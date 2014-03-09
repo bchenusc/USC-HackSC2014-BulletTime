@@ -61,6 +61,9 @@ public class GameManager : Singleton<GameManager> {
 
 	public void addTimeObject(TimeTracker tt) {
 		timeObjects.AddLast(tt);
+		if (timeStopped) {
+			tt.StopObject();
+		}
 	}
 
 	public LinkedList<TimeTracker> getTimeObjects() {

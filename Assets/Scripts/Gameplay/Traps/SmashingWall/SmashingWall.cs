@@ -12,6 +12,8 @@ public class SmashingWall : MonoBehaviour {
 	public float smashForce;
 	public float separateVelocity;
 
+	Vector3 smashDirection;
+
 	public enum SmashingWallState {
 		Smashing,
 		Smashed,
@@ -22,12 +24,16 @@ public class SmashingWall : MonoBehaviour {
 	SmashingWallState m_State = SmashingWallState.Opened;
 
 	void Awake () {
-		m_leftWallOriginalPos = LeftWall.transform.position;
-		m_rightWallOriginalPos = RightWall.transform.position;
 	}
 
 	// Use this for initialization
 	void Start () {
+		m_leftWallOriginalPos = LeftWall.transform.position;
+		m_rightWallOriginalPos = RightWall.transform.position;
+
+		LeftWall.transform.LookAt(m_rightWallOriginalPos);
+		RightWall.transform.LookAt(m_leftWallOriginalPos);
+
 		m_State = SmashingWallState.Smashing;
 	}
 	
@@ -39,8 +45,8 @@ public class SmashingWall : MonoBehaviour {
 	void FixedUpdate() {
 		// Wall is smashing, move them towards each other
 		if(!GameManager.Instance.isTimeStopped() && m_State == SmashingWallState.Smashing) {
-			LeftWall.rigidbody.AddForce(new Vector3(smashForce, 0, 0) * Time.deltaTime);
-			RightWall.rigidbody.AddForce(new Vector3(-smashForce, 0, 0) * Time.deltaTime);
+			LeftWall.rigidbody.AddForce(LeftWall.transform.forward.normalized * 500 * Time.deltaTime);
+			RightWall.rigidbody.AddForce(RightWall.transform.forward.normalized * 500 * Time.deltaTime);
 		// Wall has smashed, freeze all movement
 		} else if(m_State == SmashingWallState.Smashed || m_State == SmashingWallState.Opened) {
 			if(!LeftWall.rigidbody.isKinematic) {
@@ -74,8 +80,12 @@ public class SmashingWall : MonoBehaviour {
 
 	void SeparateWalls() {
 		m_State = SmashingWallState.Opening;
-		LeftWall.rigidbody.velocity = new Vector3(-separateVelocity, 0, 0) * Time.deltaTime;
-		RightWall.rigidbody.velocity = new Vector3(separateVelocity, 0, 0) * Time.deltaTime;
+		if(!LeftWall.rigidbody.isKinematic) {
+			LeftWall.rigidbody.velocity = LeftWall.transform.forward * -separateVelocity * Time.deltaTime;
+		}
+		if(!RightWall.rigidbody.isKinematic) {
+			RightWall.rigidbody.velocity = RightWall.transform.forward * -separateVelocity * Time.deltaTime;
+		}
 	}
 
 	void SmashWalls() {

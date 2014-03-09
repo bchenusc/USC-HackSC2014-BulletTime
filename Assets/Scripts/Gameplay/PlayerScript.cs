@@ -11,20 +11,15 @@ public class PlayerScript : MonoBehaviour {
 
 	PlayerState m_State = PlayerState.Alive;
 
+	public GameObject[] Checkpoints;
+	Vector3 currentCheckpoint;
+
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(m_State == PlayerState.Dying) {
-			if(GetComponent<OVRMainMenu>()) {
-				OVRMainMenu m = GetComponent<OVRMainMenu>();
-				m.GUIShowVRVariables();
-			}
-			//Quaternion b = a.
-			//transform.rotation = Quaternion.Slerp(a
+		if(Checkpoints.Length > 0) {
+			currentCheckpoint = Checkpoints[0].transform.position;
+		} else {
+			currentCheckpoint = transform.position;
 		}
 	}
 
@@ -37,10 +32,26 @@ public class PlayerScript : MonoBehaviour {
 		// If the body is a TimeTracker object
 		if(body.gameObject.GetComponent<TimeTracker>()) {
 			if(m_State == PlayerState.Alive) {
+				TimerManager.Instance.Add ("RespawnCharacter", RespawnCharacter, 3f, false);
 				m_State = PlayerState.Dying;
 				GetComponent<OVRGamepadController>().enabled = false;
 				GetComponent<OVRPlayerController>().enabled = false;
+				GameManager.Instance.setPlayerDead();
 			}
 		}
+	}
+
+	void RespawnCharacter() {
+		Debug.Log ("Respawning");
+		transform.position = currentCheckpoint + new Vector3(0, 2, 0);
+		m_State = PlayerState.Alive;
+		GetComponent<OVRGamepadController>().enabled = true;
+		GetComponent<OVRPlayerController>().enabled = true;
+		GetComponent<OVRMainMenu>().resetDeath();
+		GameManager.Instance.setPlayerAlive();
+	}
+
+	public void setCheckpoint(GameObject checkpoint) {
+		currentCheckpoint = checkpoint.transform.position;
 	}
 }

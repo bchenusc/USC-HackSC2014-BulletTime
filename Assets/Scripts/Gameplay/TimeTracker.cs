@@ -43,6 +43,7 @@ public class TimeTracker : MonoBehaviour {
 	}
 
 	void OnDestroy() {
-		GameManager.Instance.removeTimeObject(this);
+		if (GameManager.Instance != null)
+			GameManager.Instance.removeTimeObject(this);
 	}
 }

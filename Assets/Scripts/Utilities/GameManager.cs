@@ -12,7 +12,6 @@ public class GameManager : Singleton<GameManager> {
 
 	#region playerStats
 	GameObject player = null;
-	CharacterController playerController = null;
 	#endregion
 
 	#region otherVariables
@@ -31,7 +30,6 @@ public class GameManager : Singleton<GameManager> {
 
 	void Start() {
 		player = GameObject.FindGameObjectWithTag("Player");
-		playerController = player.GetComponent<CharacterController>();
 	}
 
 	void Update() {
@@ -81,11 +79,12 @@ public class GameManager : Singleton<GameManager> {
 		if (Input.GetKeyDown(KeyCode.T) || startButtonDown) {
 			reset();
 		}
+
+		//Debug.Log(timeStopped);
 	}
 
 	void OnLevelWasLoaded(int level) {
 		player = GameObject.FindGameObjectWithTag("Player");
-		playerController = player.GetComponent<CharacterController>();
 	}
 
 	void reset() {
@@ -139,6 +138,10 @@ public class GameManager : Singleton<GameManager> {
 
 	public float getBulletTimeRemaining() {
 		return bulletTimeRemaining;
+	}
+
+	public void setBulletTimeRemaining(float b) {
+		bulletTimeRemaining = b;
 	}
 
 	public bool isBulletTimeActive() {

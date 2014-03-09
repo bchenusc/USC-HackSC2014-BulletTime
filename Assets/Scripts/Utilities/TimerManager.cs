@@ -26,6 +26,7 @@ public class TimerManager : Singleton<TimerManager> {
 		public int i_triggerCount;
 		public int i_loopThisManyTimes;
 		public event Action A_AfterCallBackQueue;
+		public bool ignoreTimeStop;
 		
 		public bool b_removeMe;
 		
@@ -58,13 +59,13 @@ public class TimerManager : Singleton<TimerManager> {
 			sl_active.Add(kvp.Key, kvp.Value);
 		}
 		sl_pending.Clear();
-
-		if (GameManager.Instance.isTimeStopped() && !GameManager.Instance.getPlayerDead()) {
-			return;
-		}
 		
 		//Update each active timer.
 		foreach (TimerInstance t in sl_active.Values){
+			if (!t.ignoreTimeStop && GameManager.Instance.isTimeStopped()) {
+				continue;
+			}
+
 			if (t.b_removeMe) continue;
 			if (t.f_curTime > 0) {t.f_curTime-= Time.deltaTime;}
 			if (t.f_curTime < 0) {t.f_curTime = 0;}
@@ -102,7 +103,7 @@ public class TimerManager : Singleton<TimerManager> {
 		}
 	}
 	
-	public bool Add(string name, Action callback, float time, bool looping, int loopForThisManyTimes = -1, Action afterCallback = null){
+	public bool Add(string name, Action callback, float time, bool looping, int loopForThisManyTimes = -1, Action afterCallback = null, bool ignoreTimeStop = false){
 		
 		if (!sl_active.ContainsKey(name)){
 			//If the active timers doesn't contain a name that already exists create a new Timer instance.
@@ -114,6 +115,7 @@ public class TimerManager : Singleton<TimerManager> {
 			t.i_triggerCount = 0;
 			t.i_loopThisManyTimes = loopForThisManyTimes;
 			t.A_AfterCallBackQueue += afterCallback;
+			t.ignoreTimeStop = ignoreTimeStop;
 			
 			t.b_removeMe = false;
 			

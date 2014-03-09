@@ -30,6 +30,7 @@ public class GameManager : Singleton<GameManager> {
 	void Start() {
 		player = GameObject.FindGameObjectWithTag("Player");
 		playerController = player.GetComponent<CharacterController>();
+
 	}
 
 	void Update() {

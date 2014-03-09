@@ -4,7 +4,7 @@ using System.Collections;
 public class Checkpoint : MonoBehaviour {
 
 	public bool resetsBulletTime = false;
-	float bulletTimeRemaining = 0;
+	float bulletTimeRemaining = -1;
 
 	// Use this for initialization
 	void Start () {
@@ -18,11 +18,13 @@ public class Checkpoint : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if(other.gameObject.CompareTag("Player")) {
-			other.GetComponent<PlayerScript>().setCheckpoint(this);
-			if (resetsBulletTime) {
-				bulletTimeRemaining = 10;
-			} else {
-				bulletTimeRemaining = GameManager.Instance.getBulletTimeRemaining();
+			if (bulletTimeRemaining < 0) {
+				other.GetComponent<PlayerScript>().setCheckpoint(this);
+				if (resetsBulletTime) {
+					bulletTimeRemaining = 10;
+				} else {
+					bulletTimeRemaining = GameManager.Instance.getBulletTimeRemaining();
+				}
 			}
 		}
 	}

@@ -23,7 +23,7 @@ public class Firing : MonoBehaviour {
 				clone.velocity = transform.forward * projectileSpeed;
 
 		AudioClip ac = AudioManager.Instance.getAudioClip("shootFireBall");
-		transform.audio.volume = 0.7f;
+		transform.audio.volume = 0.5f;
 		transform.audio.clip = ac;
 		transform.audio.PlayOneShot(ac);
 				

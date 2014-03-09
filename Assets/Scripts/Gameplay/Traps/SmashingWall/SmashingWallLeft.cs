@@ -16,10 +16,8 @@ public class SmashingWallLeft : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		foreach(ContactPoint contact in collision.contacts) {
-			if(contact.otherCollider.gameObject == RightWall) {
-				transform.parent.gameObject.GetComponent<SmashingWall>().HasCollided();
-			}
+		if (collision.gameObject == RightWall) {
+			transform.parent.gameObject.GetComponent<SmashingWall>().HasCollided();
 		}
 	}
 }

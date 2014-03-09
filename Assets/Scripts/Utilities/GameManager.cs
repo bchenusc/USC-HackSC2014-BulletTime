@@ -21,6 +21,8 @@ public class GameManager : Singleton<GameManager> {
 	bool bulletTimeActive = false;
 	bool isPlayerDead = false;
 	bool rightTriggerHeld = false;
+	bool startButtonHeld = false;
+	bool selectButtonHeld = false;
 	#endregion
 
 	void Awake() {
@@ -67,14 +69,18 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		// Go back to previous checkpoint
-		if (Input.GetKeyDown(KeyCode.R)) {
+		bool selectButtonDown = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Back) && !selectButtonHeld;
+		selectButtonHeld = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Back);
+		if (Input.GetKeyDown(KeyCode.R) || selectButtonDown) {
 			resetTimeObjectsToInitialState();
 			// respawn character here
 			return;
 		}
 
 		// Completely restart level
-		if (Input.GetKeyDown(KeyCode.T)) {
+		bool startButtonDown = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Back) && !startButtonHeld;
+		startButtonHeld = OVRGamepadController.GPC_GetButton((int)OVRGamepadController.Button.Back);
+		if (Input.GetKeyDown(KeyCode.T) || startButtonDown) {
 			reset();
 		}
 	}
@@ -86,6 +92,20 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	void resetTimeObjectsToInitialState() {
+		LinkedList<TimeTracker>.Enumerator current = timeObjects.GetEnumerator();
+		LinkedList<TimeTracker>.Enumerator previous = timeObjects.GetEnumerator();
+
+		while (current.MoveNext()) {
+			if (current.Current.gameObject.GetComponent<DestroyBullet>()) {
+				Destroy(current.Current.gameObject);
+				timeObjects.Remove(current.Current);
+				current = previous;
+			} else {
+				current.Current.ResetObject();
+			}
+
+			previous = current;
+		}
 
 	}
 

@@ -5,6 +5,8 @@ using System.Collections;
 
 public class TimeTracker : MonoBehaviour {
 
+	SaveState initialState;
+
 	Vector3 oldVelocity = Vector3.zero;
 	Vector3 oldAngularVelocity = Vector3.zero;
 	bool oldUseGravity = false;
@@ -22,6 +24,13 @@ public class TimeTracker : MonoBehaviour {
 		oldAngularVelocity = rBody.angularVelocity;
 		oldUseGravity = rBody.useGravity;
 		oldIsKinematic = rBody.isKinematic;
+
+		initialState.velocity = rBody.velocity;
+		initialState.angularVelocity = rBody.angularVelocity;
+		initialState.useGravity = rBody.useGravity;
+		initialState.isKinematic = rBody.isKinematic;
+		initialState.position = transform.position;
+		initialState.rotation = transform.rotation;
 	}
 
 	public void StopObject() {
@@ -49,7 +58,14 @@ public class TimeTracker : MonoBehaviour {
 	}
 
 	public void ResetObject() {
+		rBody.isKinematic = false;
 
+		rBody.velocity = initialState.velocity;
+		rBody.angularVelocity = initialState.angularVelocity;
+		rBody.useGravity = initialState.useGravity;
+		transform.position = initialState.position;
+		transform.rotation = initialState.rotation;
+		rBody.isKinematic = initialState.isKinematic;
 	}
 
 	void OnApplicationQuit() {
@@ -61,4 +77,13 @@ public class TimeTracker : MonoBehaviour {
 			GameManager.Instance.removeTimeObject(this);
 		}
 	}
+}
+
+struct SaveState {
+	public Vector3 position;
+	public Vector3 velocity;
+	public Vector3 angularVelocity;
+	public bool useGravity;
+	public bool isKinematic;
+	public Quaternion rotation;
 }

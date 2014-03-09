@@ -31,7 +31,7 @@ public class GameManager : Singleton<GameManager> {
 		player = GameObject.FindGameObjectWithTag("Player");
 		playerController = player.GetComponent<CharacterController>();
 		// Add the ocean collider to the list of timeobjecst
-		timeObjects.AddLast(GameObject.FindGameObjectWithTag("Ocean").GetComponent<TimeTracker>());
+//		timeObjects.AddLast(GameObject.FindGameObjectWithTag("Ocean").GetComponent<TimeTracker>());
 	}
 
 	void Update() {

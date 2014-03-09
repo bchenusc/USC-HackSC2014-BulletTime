@@ -9,7 +9,12 @@ public class DestroyBullet : MonoBehaviour {
 	}
 
 	void DestroyProjectile() {
+		TimerManager.Instance.Remove (gameObject.GetInstanceID () + "Destroy");
 		Destroy (gameObject);
+	}
+
+	void OnCollisionEnter(Collision c){
+		DestroyProjectile();
 	}
 
 }

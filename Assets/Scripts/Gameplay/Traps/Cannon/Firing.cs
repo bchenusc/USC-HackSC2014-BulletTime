@@ -4,6 +4,7 @@ using System.Collections;
 public class Firing : MonoBehaviour {
 	public int projectileSpeed = 30;
 	public Rigidbody projectile;
+	public int rate = 4;
 
 	void Start () {
 		StartFiring ();
@@ -22,7 +23,7 @@ public class Firing : MonoBehaviour {
 	}
 
 	public void StartFiring(){
-		TimerManager.Instance.Add (gameObject.GetInstanceID() + "Gun", Fire, 1, true);
+		TimerManager.Instance.Add (gameObject.GetInstanceID() + "Gun", Fire, rate, true);
 	}
 
 	public void StopFiring(){

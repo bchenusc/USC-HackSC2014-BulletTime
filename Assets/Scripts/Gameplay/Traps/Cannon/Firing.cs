@@ -20,7 +20,9 @@ public class Firing : MonoBehaviour {
 	void Fire (){
 		Rigidbody clone; 
 				clone = Instantiate (projectile, transform.position, Quaternion.identity) as Rigidbody;
-				clone.velocity = transform.forward * projectileSpeed;
+		Vector3 vel = transform.forward * projectileSpeed;
+		clone.velocity = vel;
+		clone.transform.GetComponent<TimeTracker>().SetInitialStateStuff(vel, clone.rotation);
 
 		AudioClip ac = AudioManager.Instance.getAudioClip("shootFireBall");
 		transform.audio.volume = 0.5f;

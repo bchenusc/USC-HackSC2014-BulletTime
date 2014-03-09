@@ -33,6 +33,11 @@ public class TimeTracker : MonoBehaviour {
 		initialState.rotation = transform.rotation;
 	}
 
+	public void SetInitialStateStuff(Vector3 vel, Quaternion rot) {
+		initialState.velocity = vel;
+		initialState.rotation = rot;
+	}
+
 	public void StopObject() {
 		oldVelocity = rBody.velocity;
 		oldAngularVelocity = rBody.angularVelocity;

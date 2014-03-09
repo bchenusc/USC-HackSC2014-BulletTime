@@ -712,9 +712,9 @@ public class OVRMainMenu : MonoBehaviour
 	void GUIShowBulletTime() {
 		string time = string.Format("BulletTime Remaining: {0:0.00}s", GameManager.Instance.getBulletTimeRemaining());
 		if (GameManager.Instance.isBulletTimeActive() || GameManager.Instance.getBulletTimeRemaining() <= 0) {
-			GuiHelper.StereoBox(490, 100, WidthX, WidthY, ref time, Color.red);
+			GuiHelper.StereoBox(490, 280, WidthX, WidthY, ref time, Color.red);
 		} else {
-			GuiHelper.StereoBox(490, 100, WidthX, WidthY, ref time, Color.green);
+			GuiHelper.StereoBox(490, 280, WidthX, WidthY, ref time, Color.green);
 		}
 	}
 

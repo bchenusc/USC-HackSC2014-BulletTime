@@ -20,6 +20,7 @@ public class GameManager : Singleton<GameManager> {
 	bool timeStopped = false;
 	bool bulletTimeActive = false;
 	bool isPlayerDead = false;
+	bool rightTriggerHeld = false;
 	#endregion
 
 	void Awake() {
@@ -32,17 +33,22 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	void Update() {
-		float currentPlayerVelocity = playerController.velocity.sqrMagnitude;
+		bool playerMoving = Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0;
 
-		if (timeStopped && !bulletTimeActive && currentPlayerVelocity > minVelocityBuffer) {
+		if (timeStopped && !bulletTimeActive && playerMoving) {
 			resumeTime();
 			timeStopped = false;
-		} else if (!timeStopped && currentPlayerVelocity < minVelocityBuffer) {
+		} else if (!timeStopped && (!playerMoving || bulletTimeActive)) {
 			stopTime();
 			timeStopped = true;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space) && timeStopped && bulletTimeRemaining > 0) {
+		bool rightTriggerDown = OVRGamepadController.GPC_GetAxis((int)OVRGamepadController.Axis.RightTrigger) > 0 && !rightTriggerHeld;
+		bool rightTriggerUp = OVRGamepadController.GPC_GetAxis((int)OVRGamepadController.Axis.RightTrigger) <= 0 && rightTriggerHeld;
+
+		rightTriggerHeld = OVRGamepadController.GPC_GetAxis((int)OVRGamepadController.Axis.RightTrigger) > 0;
+
+		if (!bulletTimeActive && (Input.GetKeyDown(KeyCode.Space) || rightTriggerDown) && bulletTimeRemaining > 0) {
 			bulletTimeActive = true;
 		}
 
@@ -55,13 +61,16 @@ public class GameManager : Singleton<GameManager> {
 			}
 		}
 
-		if (Input.GetKeyUp(KeyCode.Space)) {
+		if (bulletTimeActive && (Input.GetKeyUp(KeyCode.Space) || rightTriggerUp)) {
 			bulletTimeActive = false;
 		}
 	}
 
 	public void addTimeObject(TimeTracker tt) {
 		timeObjects.AddLast(tt);
+		if (timeStopped) {
+			tt.StopObject();
+		}
 	}
 
 	public LinkedList<TimeTracker> getTimeObjects() {

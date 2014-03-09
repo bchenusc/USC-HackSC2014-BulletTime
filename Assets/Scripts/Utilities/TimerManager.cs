@@ -58,6 +58,10 @@ public class TimerManager : Singleton<TimerManager> {
 			sl_active.Add(kvp.Key, kvp.Value);
 		}
 		sl_pending.Clear();
+
+		if (GameManager.Instance.isTimeStopped()) {
+			return;
+		}
 		
 		//Update each active timer.
 		foreach (TimerInstance t in sl_active.Values){

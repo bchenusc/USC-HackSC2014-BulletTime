@@ -59,7 +59,7 @@ public class OVRMainMenu : MonoBehaviour
 	private int    	StartX			= 490;
 	private int    	StartY			= 300;
 	private int    	WidthX			= 300;
-	private int    	WidthY			= 23;
+	private int    	WidthY			= 27;
 	
 	// Spacing for variables that users can change
 	private int    	VRVarsSX		= 553;
@@ -645,11 +645,12 @@ public class OVRMainMenu : MonoBehaviour
 		// We can turn on the render object so we can render the on-screen menu
 		if(GUIRenderObject != null)
 		{
-			if (ScenesVisible || ShowVRVars || Crosshair.IsCrosshairVisible() || 
+			/*if (ScenesVisible || ShowVRVars || Crosshair.IsCrosshairVisible() || 
 				RiftPresentTimeout > 0.0f || DeviceDetectionTimeout > 0.0f )
 				GUIRenderObject.SetActive(true);
 			else
-				GUIRenderObject.SetActive(false);
+				GUIRenderObject.SetActive(false);*/
+			GUIRenderObject.SetActive(true);
 		}
 		
 		//***
@@ -684,6 +685,7 @@ public class OVRMainMenu : MonoBehaviour
 		// So do not show anything else
 		if(GUIShowRiftDetected() != true)
 		{	
+			GUIShowBulletTime();
 			GUIShowLevels();
 			GUIShowVRVariables();
 		}
@@ -697,6 +699,16 @@ public class OVRMainMenu : MonoBehaviour
 		// Restore previous GUI matrix
 		GUI.matrix = svMat;
  	}
+
+	// GUIShowBulletTime
+	void GUIShowBulletTime() {
+		string time = string.Format("BulletTime Remaining: {0:0.00}s", GameManager.Instance.getBulletTimeRemaining());
+		if (GameManager.Instance.isBulletTimeActive() || GameManager.Instance.getBulletTimeRemaining() <= 0) {
+			GuiHelper.StereoBox(490, 100, WidthX, WidthY, ref time, Color.red);
+		} else {
+			GuiHelper.StereoBox(490, 100, WidthX, WidthY, ref time, Color.green);
+		}
+	}
 	
 	// GUIShowLevels
 	void GUIShowLevels()
@@ -733,7 +745,7 @@ public class OVRMainMenu : MonoBehaviour
 	// GUIShowVRVariables
 	void GUIShowVRVariables()
 	{
-		bool SpaceHit = Input.GetKey("space");
+		bool SpaceHit = Input.GetKey(KeyCode.Tab);
 		if ((OldSpaceHit == false) && (SpaceHit == true))
 		{
 			if(ShowVRVars == true) 
@@ -745,12 +757,16 @@ public class OVRMainMenu : MonoBehaviour
 		OldSpaceHit = SpaceHit;
 
 		int y   = VRVarsSY;
+
+		if (!ShowVRVars) {
+			return;
+		}
 		
 		// Print out auto mag correction state
 		MagCal.GUIMagYawDriftCorrection(VRVarsSX, y, 
 										VRVarsWidthX, VRVarsWidthY,
 										ref GuiHelper);
-			
+
 		// Draw FPS
 		GuiHelper.StereoBox (VRVarsSX, y += StepY, VRVarsWidthX, VRVarsWidthY, 
 							 ref strFPS, Color.green);

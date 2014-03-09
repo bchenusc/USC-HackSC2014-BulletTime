@@ -5,8 +5,9 @@ using System.Collections.Generic;
 public class GameManager : Singleton<GameManager> {
 	protected GameManager() {}
 
-	#region const defines
+	#region defines
 	public float minVelocityBuffer = 0.1f;
+	public float bulletTimeRemaining = 10.0f;
 	#endregion
 
 	#region playerStats
@@ -17,6 +18,7 @@ public class GameManager : Singleton<GameManager> {
 	#region otherVariables
 	LinkedList<TimeTracker> timeObjects = null;
 	bool timeStopped = false;
+	bool bulletTimeActive = false;
 	#endregion
 
 	void Awake() {
@@ -31,12 +33,29 @@ public class GameManager : Singleton<GameManager> {
 	void Update() {
 		float currentPlayerVelocity = playerController.velocity.sqrMagnitude;
 
-		if (timeStopped && currentPlayerVelocity > minVelocityBuffer) {
+		if (timeStopped && !bulletTimeActive && currentPlayerVelocity > minVelocityBuffer) {
 			resumeTime();
 			timeStopped = false;
 		} else if (!timeStopped && currentPlayerVelocity < minVelocityBuffer) {
 			stopTime();
 			timeStopped = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Space) && timeStopped && bulletTimeRemaining > 0) {
+			bulletTimeActive = true;
+		}
+
+		if (bulletTimeActive) {
+			if (bulletTimeRemaining > 0) {
+				bulletTimeRemaining -= Time.deltaTime;
+			} else {
+				bulletTimeRemaining = 0;
+				bulletTimeActive = false;
+			}
+		}
+
+		if (Input.GetKeyUp(KeyCode.Space)) {
+			bulletTimeActive = false;
 		}
 	}
 
@@ -70,6 +89,14 @@ public class GameManager : Singleton<GameManager> {
 
 	public bool isTimeStopped() {
 		return timeStopped;
+	}
+
+	public float getBulletTimeRemaining() {
+		return bulletTimeRemaining;
+	}
+
+	public bool isBulletTimeActive() {
+		return bulletTimeActive;
 	}
 
 }

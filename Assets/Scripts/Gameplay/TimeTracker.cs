@@ -48,6 +48,10 @@ public class TimeTracker : MonoBehaviour {
 		}
 	}
 
+	public void ResetObject() {
+
+	}
+
 	void OnApplicationQuit() {
 		applicationQuitting = true;
 	}

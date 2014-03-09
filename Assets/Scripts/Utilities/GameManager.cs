@@ -64,6 +64,28 @@ public class GameManager : Singleton<GameManager> {
 		if (bulletTimeActive && (Input.GetKeyUp(KeyCode.Space) || rightTriggerUp)) {
 			bulletTimeActive = false;
 		}
+
+		// Go back to previous checkpoint
+		if (Input.GetKeyDown(KeyCode.R)) {
+			resetTimeObjectsToInitialState();
+			// respawn character here
+			return;
+		}
+
+		// Completely restart level
+		if (Input.GetKeyDown(KeyCode.T)) {
+			reset();
+		}
+	}
+
+	void reset() {
+		TimerManager.Instance.RemoveAll();
+		clearAllTimeObjects();
+		Application.LoadLevel(Application.loadedLevel);
+	}
+
+	void resetTimeObjectsToInitialState() {
+
 	}
 
 	public void addTimeObject(TimeTracker tt) {

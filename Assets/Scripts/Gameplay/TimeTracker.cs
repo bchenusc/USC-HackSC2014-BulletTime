@@ -8,6 +8,7 @@ public class TimeTracker : MonoBehaviour {
 	Vector3 oldVelocity = Vector3.zero;
 	Vector3 oldAngularVelocity = Vector3.zero;
 	bool oldUseGravity = false;
+	bool oldIsKinematic = false;
 	Rigidbody rBody = null;
 
 	void Awake () {
@@ -18,6 +19,11 @@ public class TimeTracker : MonoBehaviour {
 	void Start () {
 		rBody = gameObject.GetComponent<Rigidbody>();
 		GameManager.Instance.addTimeObject(this);
+
+		oldVelocity = rBody.velocity;
+		oldAngularVelocity = rBody.angularVelocity;
+		oldUseGravity = rBody.useGravity;
+		oldIsKinematic = rBody.isKinematic;
 	}
 	
 	// Update is called once per frame
@@ -29,17 +35,24 @@ public class TimeTracker : MonoBehaviour {
 		oldVelocity = rBody.velocity;
 		oldAngularVelocity = rBody.angularVelocity;
 		oldUseGravity = rBody.useGravity;
-		rBody.velocity = Vector3.zero;
-		rBody.angularVelocity = Vector3.zero;
-		rBody.useGravity = false;
+		oldIsKinematic = rBody.isKinematic;
+
+		if (!rBody.isKinematic) {
+			rBody.velocity = Vector3.zero;
+			rBody.angularVelocity = Vector3.zero;
+			rBody.useGravity = false;
+		}
 		rBody.isKinematic = true;
 	}
 
 	public void ResumeObject() {
-		rBody.isKinematic = false;
-		rBody.velocity = oldVelocity;
-		rBody.angularVelocity = oldAngularVelocity;
-		rBody.useGravity = oldUseGravity;
+		rBody.isKinematic = oldIsKinematic;
+
+		if (!rBody.isKinematic) {
+			rBody.velocity = oldVelocity;
+			rBody.angularVelocity = oldAngularVelocity;
+			rBody.useGravity = oldUseGravity;
+		}
 	}
 
 	void OnDestroy() {

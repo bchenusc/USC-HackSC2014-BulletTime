@@ -36,12 +36,12 @@ public class GameManager : Singleton<GameManager> {
 		if (timeStopped && !bulletTimeActive && currentPlayerVelocity > minVelocityBuffer) {
 			resumeTime();
 			timeStopped = false;
-		} else if (!timeStopped && currentPlayerVelocity < minVelocityBuffer) {
+		} else if (!timeStopped && (currentPlayerVelocity < minVelocityBuffer || bulletTimeActive)) {
 			stopTime();
 			timeStopped = true;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space) && timeStopped && bulletTimeRemaining > 0) {
+		if ((Input.GetKeyDown(KeyCode.Space) || OVRGamepadController.GPC_GetAxis((int)OVRGamepadController.Axis.RightTrigger) > 0) && bulletTimeRemaining > 0) {
 			bulletTimeActive = true;
 		}
 
@@ -54,7 +54,7 @@ public class GameManager : Singleton<GameManager> {
 			}
 		}
 
-		if (Input.GetKeyUp(KeyCode.Space)) {
+		if (Input.GetKeyUp(KeyCode.Space) || OVRGamepadController.GPC_GetAxis((int)OVRGamepadController.Axis.RightTrigger) <= 0) {
 			bulletTimeActive = false;
 		}
 	}

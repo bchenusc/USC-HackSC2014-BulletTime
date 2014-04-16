@@ -61,9 +61,12 @@ public class SmashingWall : MonoBehaviour {
 		}
 		// If the walls reach their original positions while opening, set their initial position,
 		// change the state, and set a timer to smash the walls again
-		if(LeftWall.transform.position.x <= m_leftWallOriginalPos.x &&
-		   RightWall.transform.position.x >= m_rightWallOriginalPos.x &&
-		   m_State == SmashingWallState.Opening) {
+		Vector3 dirToTarget = m_leftWallOriginalPos - LeftWall.transform.position;
+		dirToTarget = dirToTarget.normalized;
+		float dotProd = Vector3.Dot(LeftWall.transform.forward, dirToTarget);
+		bool doneMoving = Mathf.RoundToInt(dotProd) == 1;
+
+		if(m_State == SmashingWallState.Opening && doneMoving) {
 			LeftWall.transform.position = m_leftWallOriginalPos;
 			RightWall.transform.position = m_rightWallOriginalPos;
 			m_State = SmashingWallState.Opened;

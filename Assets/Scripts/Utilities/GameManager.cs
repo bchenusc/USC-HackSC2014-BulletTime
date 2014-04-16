@@ -34,8 +34,6 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	void Update() {
-		Debug.Log("Input Enabled: " + !inputDisabled + ", Time Stopped: " + timeStopped);
-
 		if (inputDisabled) {
 			return;
 		}

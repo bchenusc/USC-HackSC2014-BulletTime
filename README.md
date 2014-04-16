@@ -1,4 +1,4 @@
-BulletTime
+BulletTime [![Status](https://rawgit.com/bryan/bryan.github.io/master/images/inactive.svg)](#)
 ==========
 
 **[Brian Chen][1]**: Programmer, Graphics / UX, Black Box Tester <br/>

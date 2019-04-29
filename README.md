@@ -1,4 +1,4 @@
-BulletTime [![Status](https://rawgit.com/bryan/bryan.github.io/master/images/inactive.svg)](#)
+BulletTime ![status](https://img.shields.io/badge/status-inactive-red.svg)
 ==========
 
 **[Brian Chen][1]**: Programmer, Graphics / UX, Black Box Tester <br/>

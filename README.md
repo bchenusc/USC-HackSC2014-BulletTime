@@ -18,10 +18,10 @@ Developed and playable on the Oculus Rift. Tested and debugged on the Oculus Rif
 
 Core Gameplay
 -------
-####**Objective**
+#### **Objective**
 Get to the exit, don't die, and most importantly, enjoy your surrounding and music.
 
-####**Controls**
+#### **Controls**
 Left Joystick: Player's Movement <br/>
 Right Joystick: Player's Perspective <br/>
 Left Trigger: (Holding) Allows Speedwalk <br/>
